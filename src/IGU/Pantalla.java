@@ -4,11 +4,21 @@
  */
 package IGU;
 
+import javax.swing.JOptionPane;
+import logica.Guepardo;
+import logica.Leon;
+import logica.Mamifero;
+import logica.Tigre;
+import java.util.ArrayList;
+import java.util.List;
+import logica.Lobo;
+import logica.PerroSalvajeAfricano;
 /**
  *
  * @author Usuario
  */
 public class Pantalla extends javax.swing.JFrame {
+    private List<Mamifero> listaZoológico = new ArrayList<>();
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Pantalla.class.getName());
 
@@ -17,6 +27,30 @@ public class Pantalla extends javax.swing.JFrame {
      */
     public Pantalla() {
         initComponents();
+       
+    }
+    private void limpiarCampos() {
+    // Vaciar solo los cuadros de texto 
+    txtHabitat.setText("");
+    txtAltura.setText("");
+    txtLargo.setText("");
+    txtPeso.setText("");
+    txtNombreCientifico.setText("");
+    txtGarras.setText("");
+    txtVelocidad.setText("");
+    txtRugido.setText("");
+    txtManada.setText("");
+    txtEspecie.setText("");
+    txtCamada.setText("");
+    txtMordida.setText("");
+    txtColor.setText("");
+    txtColmillos.setText("");
+    
+    // Reiniciar el selector a la primera opción (opcional)
+    comboAnimales.setSelectedIndex(0);
+    
+    // Poner el cursor de nuevo en el primer campo
+    txtHabitat.requestFocus();
     }
 
     /**
@@ -29,7 +63,7 @@ public class Pantalla extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        cmbAnimales = new javax.swing.JComboBox<>();
+        comboAnimales = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         txtHabitat = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -39,29 +73,35 @@ public class Pantalla extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtLargo = new javax.swing.JTextField();
         txtPeso = new javax.swing.JTextField();
-        txtNomCientific = new javax.swing.JTextField();
-        AreaMostrarInfo = new java.awt.TextArea();
+        txtNombreCientifico = new javax.swing.JTextField();
+        areaTexto = new java.awt.TextArea();
         jLabel6 = new javax.swing.JLabel();
-        txtTamGARRASFelino = new javax.swing.JTextField();
+        txtGarras = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtVeloFelino = new javax.swing.JTextField();
+        txtVelocidad = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        txtNumManadaLeon = new javax.swing.JTextField();
+        txtManada = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        txtEspecieTigreYLobo = new javax.swing.JTextField();
+        txtEspecie = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        txtCamadaLobo = new javax.swing.JTextField();
+        txtCamada = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        txtMordidaPerro = new javax.swing.JTextField();
+        txtMordida = new javax.swing.JTextField();
         btnRegistrar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        txtRugidoLeon = new javax.swing.JTextField();
+        txtRugido = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        txtColor = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        txtColmillos = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        cmbAnimales.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LEON", "TIGRE", "GUEPARDO", "LOBO", "PERRO" }));
+        comboAnimales.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LEON", "TIGRE", "GUEPARDO", "LOBO", "PERRO SALVAJE AFRICANO" }));
+        comboAnimales.addActionListener(this::comboAnimalesActionPerformed);
 
         jLabel1.setText("Habitat");
 
@@ -93,11 +133,18 @@ public class Pantalla extends javax.swing.JFrame {
         btnLimpiar.setBackground(new java.awt.Color(255, 102, 102));
         btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLimpiar.setText("LIMPIAR");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel12.setText("ZONA DE ADMINISTRACION DEL ZOOLOGICO");
 
         jLabel13.setText("Potencia Rugido");
+
+        jLabel14.setText("Color");
+
+        jLabel15.setText("Tamaño de Colmillos");
+
+        jLabel16.setText("Seleccione un campo primero");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -107,132 +154,160 @@ public class Pantalla extends javax.swing.JFrame {
                 .addGap(41, 41, 41)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(comboAnimales, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel12))
+                        .addGap(136, 136, 136))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtHabitat, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtLargo, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel10)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel8))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(26, 26, 26)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtMordidaPerro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtEspecieTigreYLobo, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtCamadaLobo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtNumManadaLeon, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(62, 62, 62))))
+                                            .addComponent(jLabel9)
+                                            .addComponent(jLabel10)
+                                            .addComponent(jLabel11)
+                                            .addComponent(jLabel8))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(26, 26, 26)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(txtEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addComponent(txtMordida, javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(txtCamada, javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(txtColor, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(txtManada, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(62, 62, 62))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel6)
+                                            .addComponent(jLabel7)
+                                            .addComponent(jLabel13))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtGarras, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtVelocidad)
+                                            .addComponent(txtRugido, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel4))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtNombreCientifico, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel3))
+                                        .addGap(65, 65, 65)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtLargo, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtHabitat, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(72, 72, 72)
+                                        .addComponent(txtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                                .addComponent(areaTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel13))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtTamGARRASFelino, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtVeloFelino)
-                                    .addComponent(txtRugidoLeon, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(cmbAnimales, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addGap(2, 2, 2)
-                                    .addComponent(jLabel5)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtNomCientific, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
-                        .addComponent(AreaMostrarInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(91, 91, 91)
-                        .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(27, 27, 27))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel12)
-                .addGap(136, 136, 136))
+                                .addComponent(jLabel15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtColmillos)
+                                .addGap(50, 50, 50)
+                                .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(220, 220, 220)
+                                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(27, 27, 27))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboAnimales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(AreaMostrarInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(61, 61, 61)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(15, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtHabitat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtHabitat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtLargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtLargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
-                        .addGap(8, 8, 8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(txtNomCientific, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbAnimales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtNombreCientifico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(txtTamGARRASFelino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtGarras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(txtVeloFelino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtVelocidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
-                            .addComponent(txtRugidoLeon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtRugido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(txtNumManadaLeon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtManada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(txtEspecieTigreYLobo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(txtCamadaLobo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCamada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
-                            .addComponent(txtMordidaPerro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(txtMordida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(areaTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(txtColmillos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(19, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -252,21 +327,166 @@ public class Pantalla extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        // TODO add your handling code here:
+try {
+        String seleccion = (String) comboAnimales.getSelectedItem();
+        Mamifero m = null;
+
+        // --- CAPTURA Y VALIDACIÓN DE DATOS COMUNES ---
+        String habitat = txtHabitat.getText();
+        double altura = Double.parseDouble(txtAltura.getText());
+        double largo = Double.parseDouble(txtLargo.getText());
+        double peso = Double.parseDouble(txtPeso.getText());
+        String nombreC = txtNombreCientifico.getText();
+
+        // Validación 1: Datos comunes no pueden ser negativos ni cero
+        if (altura <= 0 || largo <= 0 || peso <= 0) {
+            JOptionPane.showMessageDialog(this, "La altura, el largo y el peso deben ser mayores a cero.");
+            return; // Detiene la ejecución para que no registre nada
+        }
+
+        // --- LÓGICA SEGÚN EL ANIMAL (CON VALIDACIONES ESPECÍFICAS) ---
+        switch (seleccion) {
+            case "LEON":
+                double garrasL = Double.parseDouble(txtGarras.getText());
+                int velL = Integer.parseInt(txtVelocidad.getText());
+                int manada = Integer.parseInt(txtManada.getText());
+                double rugido = Double.parseDouble(txtRugido.getText());
+
+                // Validación específica:
+                if (garrasL < 0 || velL < 0 || manada < 1 || rugido < 0) {
+                    JOptionPane.showMessageDialog(this, "Datos de León inválidos. La manada debe ser al menos 1.");
+                    return;
+                }
+                m = new Leon(habitat, altura, largo, peso, nombreC, garrasL, velL, manada, rugido);
+                break;
+
+            case "TIGRE":
+                double garrasT = Double.parseDouble(txtGarras.getText());
+                int velT = Integer.parseInt(txtVelocidad.getText());
+                String espTigre = txtEspecie.getText();
+                
+                if (garrasT < 0 || velT < 0) {
+                    JOptionPane.showMessageDialog(this, "Las garras y velocidad no pueden ser negativas.");
+                    return;
+                }
+                m = new Tigre(habitat, altura, largo, peso, nombreC, garrasT, velT, espTigre);
+                break;
+
+            case "GUEPARDO":
+                double garrasG = Double.parseDouble(txtGarras.getText());
+                int velG = Integer.parseInt(txtVelocidad.getText());
+                
+                if (garrasG < 0 || velG < 0) {
+                    JOptionPane.showMessageDialog(this, "Las garras y velocidad no pueden ser negativas.");
+                    return;
+                }
+                m = new Guepardo(habitat, altura, largo, peso, nombreC, garrasG, velG);
+                break;
+
+            case "LOBO":
+                String colL = txtColor.getText();
+                double colmilloL = Double.parseDouble(txtColmillos.getText());
+                int camada = Integer.parseInt(txtCamada.getText());
+                String espLobo = txtEspecie.getText();
+                
+                if (colmilloL < 0 || camada < 1) {
+                    JOptionPane.showMessageDialog(this, "El tamaño de colmillos no puede ser negativo y la camada debe ser al menos 1.");
+                    return;
+                }
+                m = new Lobo(habitat, altura, largo, peso, nombreC, colL, colmilloL, camada, espLobo);
+                break;
+
+            case "PERRO SALVAJE AFRICANO":
+                String colP = txtColor.getText();
+                double colmilloP = Double.parseDouble(txtColmillos.getText());
+                int mordida = Integer.parseInt(txtMordida.getText());
+                
+                if (colmilloP < 0 || mordida < 0) {
+                    JOptionPane.showMessageDialog(this, "Los colmillos y la fuerza de mordida no pueden ser negativos.");
+                    return;
+                }
+                m = new PerroSalvajeAfricano(habitat, altura, largo, peso, nombreC, colP, colmilloP, mordida);
+                break;
+        }
+
+        // --- FINALIZACIÓN DE REGISTRO ---
+        if (m != null) {
+            listaZoológico.add(m);
+            areaTexto.append("=== REGISTRO EXITOSO: " + seleccion + " ===\n");
+            areaTexto.append("Nombre Científico: " + m.getNombreCientifico() + "\n");
+            areaTexto.append("Acción Comer: " + m.comer() + "\n");
+            areaTexto.append("Acción Correr: " + m.correr() + "\n");
+            areaTexto.append("Comunicación: " + m.comunicarse() + "\n");
+            areaTexto.append("Dormir: " + m.dormir() + "\n");
+            areaTexto.append("------------------------------------------\n\n");
+        }
+
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Error: Ingrese solo números en los campos correspondientes.");
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Ocurrió un error: " + ex.getMessage());
+    }
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void comboAnimalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAnimalesActionPerformed
+       // 1. Obtener la selección (sin el addActionListener interno)
+    String seleccion = (String) comboAnimales.getSelectedItem();
+    
+    // 2. Desactivamos todo lo específico por defecto
+    txtGarras.setEnabled(false);
+    txtVelocidad.setEnabled(false);
+    txtRugido.setEnabled(false);
+    txtManada.setEnabled(false);
+    txtEspecie.setEnabled(false);
+    txtCamada.setEnabled(false);
+    txtMordida.setEnabled(false);
+    txtColor.setEnabled(false);    // Asegúrate de que estas variables existan
+    txtColmillos.setEnabled(false);
+
+    // 3. Activamos solo lo que corresponde según tu lógica de clases
+    if (seleccion.equals("LEON")) {
+        txtGarras.setEnabled(true);
+        txtVelocidad.setEnabled(true);
+        txtRugido.setEnabled(true);
+        txtManada.setEnabled(true);
+    } else if (seleccion.equals("TIGRE")) {
+        txtGarras.setEnabled(true);
+        txtVelocidad.setEnabled(true);
+        txtEspecie.setEnabled(true);
+    } else if (seleccion.equals("LOBO")) {
+        txtCamada.setEnabled(true);
+        txtEspecie.setEnabled(true);
+        txtColor.setEnabled(true);
+        txtColmillos.setEnabled(true);
+    } else if (seleccion.equals("PERRO SALVAJE AFRICANO")) {
+        txtMordida.setEnabled(true);
+        txtColor.setEnabled(true);
+        txtColmillos.setEnabled(true);
+    } else if (seleccion.equals("GUEPARDO")) {
+        txtGarras.setEnabled(true);
+        txtVelocidad.setEnabled(true);
+    }
+    }//GEN-LAST:event_comboAnimalesActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+       limpiarCampos(); // Solo llamas al método aquí
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.TextArea AreaMostrarInfo;
+    private java.awt.TextArea areaTexto;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRegistrar;
-    private javax.swing.JComboBox<String> cmbAnimales;
+    private javax.swing.JComboBox<String> comboAnimales;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -277,16 +497,18 @@ public class Pantalla extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtAltura;
-    private javax.swing.JTextField txtCamadaLobo;
-    private javax.swing.JTextField txtEspecieTigreYLobo;
+    private javax.swing.JTextField txtCamada;
+    private javax.swing.JTextField txtColmillos;
+    private javax.swing.JTextField txtColor;
+    private javax.swing.JTextField txtEspecie;
+    private javax.swing.JTextField txtGarras;
     private javax.swing.JTextField txtHabitat;
     private javax.swing.JTextField txtLargo;
-    private javax.swing.JTextField txtMordidaPerro;
-    private javax.swing.JTextField txtNomCientific;
-    private javax.swing.JTextField txtNumManadaLeon;
+    private javax.swing.JTextField txtManada;
+    private javax.swing.JTextField txtMordida;
+    private javax.swing.JTextField txtNombreCientifico;
     private javax.swing.JTextField txtPeso;
-    private javax.swing.JTextField txtRugidoLeon;
-    private javax.swing.JTextField txtTamGARRASFelino;
-    private javax.swing.JTextField txtVeloFelino;
+    private javax.swing.JTextField txtRugido;
+    private javax.swing.JTextField txtVelocidad;
     // End of variables declaration//GEN-END:variables
 }
