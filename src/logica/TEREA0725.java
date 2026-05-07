@@ -4,17 +4,19 @@
  */
 package logica;
 
+import IGU.Pantalla;
+
 /**
  *
  * @author Usuario
  */
 public class TEREA0725 {
 
-    /**
-     * @param args the command line arguments
-     */
+  
     public static void main(String[] args) {
-        // TODO code application logic here
+        Pantalla panta = new Pantalla();
+        panta.setVisible(true);
+        panta.setLocationRelativeTo(null);
     }
     
 }
